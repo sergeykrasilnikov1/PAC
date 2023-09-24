@@ -10,8 +10,11 @@ class Worker:
 
     def work(self, filename1, filename2, func):
         """function reads matrices from files, check correctness and print result """
-        mat1 = list(map(lambda x: list(map(int, x.split())), open(filename1, 'r').readlines()))
-        mat2 = list(map(lambda x: list(map(int, x.split())), open(filename2, 'r').readlines()))
+        try:
+            mat1 = list(map(lambda x: list(map(int, x.split())), open(filename1, 'r').readlines()))
+            mat2 = list(map(lambda x: list(map(int, x.split())), open(filename2, 'r').readlines()))
+        except ValueError:
+            raise Exception('Uncorrect matrices')
         if len(mat2) == len(mat1) and all(map(lambda x, y: len(x) == len(y), mat1, mat2)):
             print(list(map(lambda x: list(map(lambda y, z: func(y, z), x[0], x[1])), zip(mat1, mat2))))
         else:
